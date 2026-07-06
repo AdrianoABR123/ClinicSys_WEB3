@@ -1,7 +1,6 @@
 package com.ClinicSys.api.models.repository;
 
 import com.ClinicSys.api.models.entity.Medicamento;
-import com.ClinicSys.api.models.entity.Paciente;
 import com.ClinicSys.api.models.repository.interfaces.CrudRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
