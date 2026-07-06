@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Medicamento')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+
+<div class="container">
+    <h2 class="mb-4">
+        <i class="bi bi-capsule"></i>
+        <span th:if="${medicamento != null}">Editar Medicamento</span>
+        <span th:if="${medicamento == null}">Novo Medicamento</span>
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${medicamento != null} ? @{/atendimento/medicamentos/editar/{id}(id=${medicamento.id()})} : @{/atendimento/medicamentos}"
+                  method="post">
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="codigo" class="form-label">Código *</label>
+                        <input type="number" class="form-control" id="codigo" name="codigo"
+                               th:value="${medicamento != null} ? ${medicamento.codigo()} : ''"
+                               required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="nome" class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="nome" name="nome"
+                               th:value="${medicamento != null} ? ${medicamento.nome()} : ''"
+                               required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="dosagem" class="form-label">Dosagem</label>
+                        <input type="number" class="form-control" id="dosagem" name="dosagem"
+                               th:value="${medicamento != null} ? ${medicamento.dosagem()} : ''">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="tipo_dosagem" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo_dosagem" name="tipo_dosagem">
+                            <option value="mg" th:selected="${medicamento != null and medicamento.tipo_dosagem() == 'mg'}">mg</option>
+                            <option value="ml" th:selected="${medicamento != null and medicamento.tipo_dosagem() == 'ml'}">ml</option>
+                            <option value="g" th:selected="${medicamento != null and medicamento.tipo_dosagem() == 'g'}">g</option>
+                            <option value="UI" th:selected="${medicamento != null and medicamento.tipo_dosagem() == 'UI'}">UI</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3"
+                                  th:text="${medicamento != null} ? ${medicamento.descricao()} : ''"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="observacao" class="form-label">Observação</label>
+                        <textarea class="form-control" id="observacao" name="observacao" rows="3"
+                                  th:text="${medicamento != null} ? ${medicamento.observacao()} : ''"></textarea>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Salvar
+                    </button>
+                    <a th:href="@{/atendimento/medicamentos}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

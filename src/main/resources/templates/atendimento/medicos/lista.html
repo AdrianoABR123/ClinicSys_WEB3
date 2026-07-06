@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Médicos')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+<div th:replace="~{fragments/layout :: mensagem}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-person-badge"></i> Médicos</h2>
+        <a th:href="@{/atendimento/medicos/novo}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Novo Médico
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CRM</th>
+                            <th>Nome</th>
+                            <th>Especialidade</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="medico : ${medicos}">
+                            <td th:text="${medico.id()}"></td>
+                            <td th:text="${medico.crm()}"></td>
+                            <td th:text="${medico.nome()}"></td>
+                            <td th:text="${medico.especialidade()}"></td>
+                            <td th:text="${medico.email()}"></td>
+                            <td th:text="${medico.numero()}"></td>
+                            <td class="text-center">
+                                <a th:href="@{/atendimento/medicos/editar/{id}(id=${medico.id()})}"
+                                   class="btn btn-sm btn-warning me-1" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/atendimento/medicos/excluir/{id}(id=${medico.id()})}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Deseja realmente excluir este médico?')"
+                                   title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${medicos == null or medicos.empty}">
+                            <td colspan="7" class="text-center text-muted py-4">
+                                Nenhum médico cadastrado.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

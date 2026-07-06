@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Consultas Marcadas')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-medico}"></div>
+<div th:replace="~{fragments/layout :: mensagem}"></div>
+
+<div class="container">
+    <div class="mb-4">
+        <h2><i class="bi bi-clipboard-pulse"></i> Consultas Agendadas</h2>
+        <p class="text-muted">Abaixo estão listadas todas as consultas que aguardam a realização e preenchimento do prontuário.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Data / Hora</th>
+                            <th>Retorno</th>
+                            <th>Paciente</th>
+                            <th>Plano de Saúde</th>
+                            <th>Observações do Agendamento</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="consulta : ${consultas}">
+                            <td th:text="${consulta.codigo()}"></td>
+                            <td th:text="${#temporals.format(consulta.data_hora().toLocalDateTime(), 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${consulta.data_hora_volta() != null} ? ${#temporals.format(consulta.data_hora_volta().toLocalDateTime(), 'dd/MM/yyyy HH:mm')} : '-'"></td>
+                            <td th:text="${consulta.id_paciente() != null} ? ${consulta.id_paciente().nome()} : '-'"></td>
+                            <td th:text="${consulta.id_paciente() != null} ? ${consulta.id_paciente().plano_saude()} : '-'"></td>
+                            <td th:text="${consulta.observacao()}"></td>
+                            <td class="text-center">
+                                <a th:href="@{/medico/consulta/{id}(id=${consulta.id()})}" class="btn btn-sm btn-success">
+                                    <i class="bi bi-file-earmark-medical"></i> Atender
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${consultas == null or consultas.empty}">
+                            <td colspan="7" class="text-center text-muted py-4">
+                                Nenhuma consulta agendada para você neste momento.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

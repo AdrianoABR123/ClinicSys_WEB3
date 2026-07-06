@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Prontuário da Consulta')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-medico}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-file-earmark-medical"></i> Registro de Consulta Realizada</h2>
+        <a th:href="@{/medico/realizadas}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Voltar à Lista
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Informações Gerais -->
+        <div class="col-md-4">
+            <div class="card mb-4 border-0 shadow-sm bg-white">
+                <div class="card-body">
+                    <h5 class="card-title text-success border-bottom pb-2 mb-3">
+                        <i class="bi bi-person"></i> Paciente
+                    </h5>
+                    <p class="mb-2"><strong>Nome:</strong> <span th:text="${consulta.id_paciente().nome()}"></span></p>
+                    <p class="mb-2"><strong>CPF:</strong> <span th:text="${consulta.id_paciente().cpf()}"></span></p>
+                    <p class="mb-2"><strong>Plano:</strong> <span th:text="${consulta.id_paciente().plano_saude() != null} ? ${consulta.id_paciente().plano_saude()} : 'Particular'"></span></p>
+                    <p class="mb-2"><strong>Telefone:</strong> <span th:text="${consulta.id_paciente().numero()}"></span></p>
+                    <p class="mb-0"><strong>E-mail:</strong> <span th:text="${consulta.id_paciente().email()}"></span></p>
+                </div>
+            </div>
+
+            <div class="card mb-4 border-0 shadow-sm bg-white">
+                <div class="card-body">
+                    <h5 class="card-title text-success border-bottom pb-2 mb-3">
+                        <i class="bi bi-calendar"></i> Consulta
+                    </h5>
+                    <p class="mb-2"><strong>Código:</strong> <span th:text="${consulta.codigo()}"></span></p>
+                    <p class="mb-2"><strong>Data/Hora:</strong> <span th:text="${#temporals.format(consulta.data_hora().toLocalDateTime(), 'dd/MM/yyyy HH:mm')}"></span></p>
+                    <p class="mb-0"><strong>Retorno:</strong> <span th:text="${consulta.data_hora_volta() != null} ? ${#temporals.format(consulta.data_hora_volta().toLocalDateTime(), 'dd/MM/yyyy HH:mm')} : 'Não'"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prontuário e Receituário cadastrado -->
+        <div class="col-md-8">
+            <div class="card mb-4 border-0 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-success mb-4"><i class="bi bi-file-earmark-medical-fill"></i> Detalhes do Prontuário</h4>
+                    
+                    <div class="mb-4">
+                        <h6 class="fw-bold"><i class="bi bi-chat-left-text"></i> Descrição Clínica / Anamnese:</h6>
+                        <div class="p-3 bg-light rounded text-break" style="white-space: pre-line;" th:text="${prontuario.descricao()}"></div>
+                    </div>
+
+                    <div class="mb-4" th:if="${prontuario.observacao() != null and !prontuario.observacao().isEmpty()}">
+                        <h6 class="fw-bold"><i class="bi bi-info-circle"></i> Observações Gerais:</h6>
+                        <p class="p-3 bg-light rounded text-break" th:text="${prontuario.observacao()}"></p>
+                    </div>
+
+                    <!-- Se houver Receituário -->
+                    <div th:if="${receituario != null}" class="mt-5 pt-3 border-top">
+                        <h4 class="card-title text-success mb-4"><i class="bi bi-prescription"></i> Receituário Associado</h4>
+                        <p><strong>Código da Receita:</strong> <span th:text="${receituario.codigo()}"></span></p>
+                        <p th:if="${receituario.observacao() != null and !receituario.observacao().isEmpty()}">
+                            <strong>Observações da Receita:</strong> <span th:text="${receituario.observacao()}"></span>
+                        </p>
+                        
+                        <h6 class="fw-bold mt-4 mb-3">Medicamentos Prescritos:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Medicamento</th>
+                                        <th>Dosagem</th>
+                                        <th>Intervalo (Horas)</th>
+                                        <th>Instruções/Observação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item : ${itensReceituario}">
+                                        <td th:text="${item.idMedicamento().nome()}"></td>
+                                        <td>
+                                            <span th:text="${item.idMedicamento().dosagem()}"></span>
+                                            <span th:text="${item.idMedicamento().tipo_dosagem()}"></span>
+                                        </td>
+                                        <td>
+                                            De <span th:text="${item.intervaloDoses()}"></span> em <span th:text="${item.intervaloDoses()}"></span> horas
+                                        </td>
+                                        <td th:text="${item.observacao()}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div th:if="${receituario == null}" class="alert alert-info mt-4">
+                        <i class="bi bi-info-circle"></i> Não foi emitido receituário nesta consulta.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

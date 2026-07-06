@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Paciente')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+
+<div class="container">
+    <h2 class="mb-4">
+        <i class="bi bi-person-plus"></i>
+        <span th:if="${paciente != null}">Editar Paciente</span>
+        <span th:if="${paciente == null}">Novo Paciente</span>
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${paciente != null} ? @{/atendimento/pacientes/editar/{id}(id=${paciente.id()})} : @{/atendimento/pacientes}"
+                  method="post">
+
+                <h5 class="mb-3 text-primary"><i class="bi bi-person"></i> Dados Pessoais</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="cpf" class="form-label">CPF *</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf"
+                               th:value="${paciente != null} ? ${paciente.cpf()} : ''"
+                               required maxlength="11" placeholder="00000000000">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="nome" class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="nome" name="nome"
+                               th:value="${paciente != null} ? ${paciente.nome()} : ''"
+                               required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="plano_saude" class="form-label">Plano de Saúde</label>
+                        <input type="text" class="form-control" id="plano_saude" name="plano_saude"
+                               th:value="${paciente != null} ? ${paciente.plano_saude()} : ''">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               th:value="${paciente != null} ? ${paciente.email()} : ''">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="numero" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="numero" name="numero"
+                               th:value="${paciente != null} ? ${paciente.numero()} : ''"
+                               maxlength="11">
+                    </div>
+                </div>
+
+                <div th:if="${paciente == null}">
+                    <h5 class="mb-3 text-primary"><i class="bi bi-geo-alt"></i> Endereço</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input type="text" class="form-control" id="cep" name="cep"
+                                   th:value="${endereco != null} ? ${endereco.cep()} : ''"
+                                   maxlength="9">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="rua" class="form-label">Rua</label>
+                            <input type="text" class="form-control" id="rua" name="rua"
+                                   th:value="${endereco != null} ? ${endereco.rua()} : ''">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" id="bairro" name="bairro"
+                                   th:value="${endereco != null} ? ${endereco.bairro()} : ''">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="municipio" class="form-label">Município</label>
+                            <input type="text" class="form-control" id="municipio" name="municipio"
+                                   th:value="${endereco != null} ? ${endereco.municipio()} : ''">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="uf" class="form-label">UF</label>
+                            <input type="text" class="form-control" id="uf" name="uf"
+                                   th:value="${endereco != null} ? ${endereco.uf()} : ''"
+                                   maxlength="2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Salvar
+                    </button>
+                    <a th:href="@{/atendimento/pacientes}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

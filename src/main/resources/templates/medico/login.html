@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Login do Médico')}"></head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-4">
+            <div class="text-center mb-4">
+                <h2><i class="bi bi-hospital text-success"></i> ClinicSys</h2>
+                <p class="text-muted">Área do Profissional Médico</p>
+            </div>
+            
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4">Acesso ao Sistema</h4>
+                    
+                    <div th:if="${erro}" class="alert alert-danger" role="alert">
+                        <span th:text="${erro}"></span>
+                    </div>
+
+                    <form th:action="@{/medico/login}" method="post">
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Usuário (Login)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control" id="login" name="login" required placeholder="Digite seu usuário">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="senha" class="form-label">Senha</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="senha" name="senha" required placeholder="Digite sua senha">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 mb-3">
+                            <i class="bi bi-box-arrow-in-right"></i> Entrar
+                        </button>
+                        
+                        <a th:href="@{/}" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-left"></i> Voltar ao Início
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

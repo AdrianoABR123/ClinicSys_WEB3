@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Médico')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+
+<div class="container">
+    <h2 class="mb-4">
+        <i class="bi bi-person-badge"></i>
+        <span th:if="${medico != null}">Editar Médico</span>
+        <span th:if="${medico == null}">Novo Médico</span>
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${medico != null} ? @{/atendimento/medicos/editar/{id}(id=${medico.id()})} : @{/atendimento/medicos}"
+                  method="post">
+
+                <h5 class="mb-3 text-primary"><i class="bi bi-person"></i> Dados do Médico</h5>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="crm" class="form-label">CRM *</label>
+                        <input type="text" class="form-control" id="crm" name="crm"
+                               th:value="${medico != null} ? ${medico.crm()} : ''"
+                               required maxlength="10">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="nome" class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="nome" name="nome"
+                               th:value="${medico != null} ? ${medico.nome()} : ''"
+                               required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="especialidade" class="form-label">Especialidade *</label>
+                        <input type="text" class="form-control" id="especialidade" name="especialidade"
+                               th:value="${medico != null} ? ${medico.especialidade()} : ''"
+                               required>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               th:value="${medico != null} ? ${medico.email()} : ''">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="numero" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="numero" name="numero"
+                               th:value="${medico != null} ? ${medico.numero()} : ''"
+                               maxlength="11">
+                    </div>
+                </div>
+
+                <h5 class="mb-3 text-primary"><i class="bi bi-key"></i> Dados de Acesso</h5>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="login" class="form-label">Login *</label>
+                        <input type="text" class="form-control" id="login" name="login"
+                               th:value="${loginMedico != null} ? ${loginMedico.login()} : ''"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="senha" class="form-label">Senha *</label>
+                        <input type="password" class="form-control" id="senha" name="senha"
+                               th:value="${loginMedico != null} ? ${loginMedico.senha()} : ''"
+                               required>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Salvar
+                    </button>
+                    <a th:href="@{/atendimento/medicos}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

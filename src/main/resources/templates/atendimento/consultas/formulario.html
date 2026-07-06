@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Nova Consulta')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+
+<div class="container">
+    <h2 class="mb-4">
+        <i class="bi bi-calendar-plus"></i> Nova Consulta
+    </h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{/atendimento/consultas}" method="post">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="id_medico" class="form-label">Médico *</label>
+                        <select class="form-select" id="id_medico" name="id_medico" required>
+                            <option value="">Selecione um médico...</option>
+                            <option th:each="medico : ${medicos}"
+                                    th:value="${medico.id()}"
+                                    th:text="${medico.nome() + ' - ' + medico.especialidade() + ' (CRM: ' + medico.crm() + ')'}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_paciente" class="form-label">Paciente *</label>
+                        <select class="form-select" id="id_paciente" name="id_paciente" required>
+                            <option value="">Selecione um paciente...</option>
+                            <option th:each="paciente : ${pacientes}"
+                                    th:value="${paciente.id()}"
+                                    th:text="${paciente.nome() + ' (CPF: ' + paciente.cpf() + ')'}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="data_hora" class="form-label">Data/Hora da Consulta *</label>
+                        <input type="datetime-local" class="form-control" id="data_hora" name="data_hora" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="data_hora_volta" class="form-label">Data/Hora de Retorno</label>
+                        <input type="datetime-local" class="form-control" id="data_hora_volta" name="data_hora_volta">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="observacao" class="form-label">Observação</label>
+                    <textarea class="form-control" id="observacao" name="observacao" rows="3"></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Agendar Consulta
+                    </button>
+                    <a th:href="@{/atendimento/consultas}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

@@ -56,7 +56,7 @@ CREATE TABLE consulta(
         REFERENCES paciente(id),
 
     FOREIGN KEY(id_medico)
-        REFERENCES medico(id),
+        REFERENCES medico(id)
 );
 
 CREATE TABLE medicamento(

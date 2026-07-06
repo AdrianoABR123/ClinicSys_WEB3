@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Início')}"></head>
+<body>
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">
+            <i class="bi bi-hospital text-primary"></i> ClinicSys
+        </h1>
+        <p class="lead text-muted">Sistema de Gerenciamento de Clínica Médica</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <!-- Card Atendimento -->
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-person-workspace display-1 text-primary"></i>
+                    </div>
+                    <h3 class="card-title">Atendimento</h3>
+                    <p class="card-text text-muted">
+                        Gerencie pacientes, médicos, medicamentos e agende consultas.
+                    </p>
+                    <a th:href="@{/atendimento/pacientes}" class="btn btn-primary btn-lg mt-3">
+                        <i class="bi bi-arrow-right-circle"></i> Acessar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Área Médica -->
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-person-badge display-1 text-success"></i>
+                    </div>
+                    <h3 class="card-title">Área do Médico</h3>
+                    <p class="card-text text-muted">
+                        Acesse suas consultas, cadastre prontuários e receituários.
+                    </p>
+                    <a th:href="@{/medico/login}" class="btn btn-success btn-lg mt-3">
+                        <i class="bi bi-box-arrow-in-right"></i> Entrar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

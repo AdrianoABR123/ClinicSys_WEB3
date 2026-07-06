@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Consultas Realizadas')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-medico}"></div>
+
+<div class="container">
+    <div class="mb-4">
+        <h2><i class="bi bi-clipboard-check"></i> Consultas Realizadas</h2>
+        <p class="text-muted">Lista de consultas já concluídas com os respectivos prontuários cadastrados.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Data / Hora</th>
+                            <th>Paciente</th>
+                            <th>Plano de Saúde</th>
+                            <th>Observações do Agendamento</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="consulta : ${consultas}">
+                            <td th:text="${consulta.codigo()}"></td>
+                            <td th:text="${#temporals.format(consulta.data_hora().toLocalDateTime(), 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${consulta.id_paciente() != null} ? ${consulta.id_paciente().nome()} : '-'"></td>
+                            <td th:text="${consulta.id_paciente() != null} ? ${consulta.id_paciente().plano_saude()} : '-'"></td>
+                            <td th:text="${consulta.observacao()}"></td>
+                            <td class="text-center">
+                                <a th:href="@{/medico/consulta/{id}/prontuario(id=${consulta.id()})}" class="btn btn-sm btn-info text-white">
+                                    <i class="bi bi-eye"></i> Ver Prontuário / Receita
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${consultas == null or consultas.empty}">
+                            <td colspan="6" class="text-center text-muted py-4">
+                                Nenhuma consulta realizada cadastrada.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

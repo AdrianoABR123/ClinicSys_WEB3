@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ClinicSys - Medicamentos')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar-atendimento}"></div>
+<div th:replace="~{fragments/layout :: mensagem}"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-capsule"></i> Medicamentos</h2>
+        <a th:href="@{/atendimento/medicamentos/novo}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Novo Medicamento
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Dosagem</th>
+                            <th>Descrição</th>
+                            <th>Observação</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="med : ${medicamentos}">
+                            <td th:text="${med.id()}"></td>
+                            <td th:text="${med.codigo()}"></td>
+                            <td th:text="${med.nome()}"></td>
+                            <td>
+                                <span th:text="${med.dosagem()}"></span>
+                                <span th:text="${med.tipo_dosagem()}"></span>
+                            </td>
+                            <td th:text="${med.descricao()}"></td>
+                            <td th:text="${med.observacao()}"></td>
+                            <td class="text-center">
+                                <a th:href="@{/atendimento/medicamentos/editar/{id}(id=${med.id()})}"
+                                   class="btn btn-sm btn-warning me-1" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/atendimento/medicamentos/excluir/{id}(id=${med.id()})}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Deseja realmente excluir este medicamento?')"
+                                   title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${medicamentos == null or medicamentos.empty}">
+                            <td colspan="7" class="text-center text-muted py-4">
+                                Nenhum medicamento cadastrado.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
