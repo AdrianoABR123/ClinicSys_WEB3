@@ -1,14 +1,11 @@
-
-
 package com.ClinicSys.api.models.entity;
 
-
-/**
- * EnderecoPaciente
- */
-
-@entity
-public class EnderecoPaciente {
-
-    
+public record EnderecoPaciente(
+        Long id,
+        String cep,
+        String rua,
+        String bairro,
+        String municipio,
+        String uf
+) {
 }
