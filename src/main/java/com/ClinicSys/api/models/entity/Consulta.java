@@ -1,5 +1,6 @@
 package com.ClinicSys.api.models.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 public record Consulta(
@@ -10,5 +11,5 @@ public record Consulta(
         String observacao,
         Paciente id_paciente,
         Medico id_medico
-) {
+) implements Serializable {
 }

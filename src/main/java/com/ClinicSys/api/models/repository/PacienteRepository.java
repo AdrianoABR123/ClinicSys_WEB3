@@ -3,7 +3,6 @@ package com.ClinicSys.api.models.repository;
 import com.ClinicSys.api.models.entity.Paciente;
 import com.ClinicSys.api.models.repository.interfaces.CrudRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,11 +51,20 @@ public class PacienteRepository implements CrudRepository<Paciente> {
                 """;
 
         try {
-            return jdbcTemplate.queryForObject(
+            return jdbcTemplate.query(
                     sql,
-                    new BeanPropertyRowMapper<>(Paciente.class),
+                    (rs, rowNum) ->
+                       new Paciente(
+                                rs.getLong("id"),
+                                rs.getString("cpf"),
+                                rs.getString("nome"),
+                                null,
+                                rs.getString("email"),
+                                rs.getString("numero"),
+                                rs.getString("plano_saude")
+                        ),
                     id
-            );
+            ).get(0);
         } catch (Exception e) {
             log.error("Theme: Read Paciente Class: {}\nMessage: {}\n Traceback: {}", e.getClass(), e.getMessage(), e.getStackTrace());
             return null;

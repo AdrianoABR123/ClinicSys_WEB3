@@ -3,7 +3,6 @@ package com.ClinicSys.api.models.repository;
 import com.ClinicSys.api.models.entity.Medico;
 import com.ClinicSys.api.models.repository.interfaces.CrudRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,11 +51,19 @@ public class MedicoRepository implements CrudRepository<Medico> {
                 """;
 
         try {
-            return jdbcTemplate.queryForObject(
+            return jdbcTemplate.query(
                     sql,
-                    new BeanPropertyRowMapper<>(Medico.class),
+                    (rs, rowNum) ->
+                            new Medico(
+                                    rs.getLong("id"),
+                                    rs.getString("crm"),
+                                    rs.getString("nome"),
+                                    rs.getString("especialidade"),
+                                    rs.getString("email"),
+                                    rs.getString("numero")
+                            ),
                     id
-            );
+            ).get(0);
         } catch (Exception e) {
             log.error("Theme: Read Medico Class: {}\nMessage: {}\n Traceback: {}", e.getClass(), e.getMessage(), e.getStackTrace());
             return null;

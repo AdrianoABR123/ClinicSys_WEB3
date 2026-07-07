@@ -3,7 +3,6 @@ package com.ClinicSys.api.models.repository;
 import com.ClinicSys.api.models.entity.Medicamento;
 import com.ClinicSys.api.models.repository.interfaces.CrudRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -51,11 +50,21 @@ public class MedicamentoRespository implements CrudRepository<Medicamento> {
                 SELECT * FROM medicamento WHERE id = ?
                 """;
         try {
-            return jdbcTemplate.queryForObject(
+            Medicamento medicamento = jdbcTemplate.query(
                     sql,
-                    new BeanPropertyRowMapper<>(Medicamento.class),
+                    (rs, rowNum) ->
+                            new Medicamento(
+                                    rs.getLong("id"),
+                                    rs.getInt("codigo"),
+                                    rs.getString("nome"),
+                                    rs.getInt("dosagem"),
+                                    rs.getString("tipo_dosagem"),
+                                    rs.getString("descricao"),
+                                    rs.getString("observacao")
+                            ),
                     id
-            );
+            ).get(0);
+            return medicamento;
         } catch (Exception e) {
             log.error("Theme: Read Medicamento Class: {}\nMessage: {}\n Traceback: {}", e.getClass(), e.getMessage(), e.getStackTrace());
             return null;

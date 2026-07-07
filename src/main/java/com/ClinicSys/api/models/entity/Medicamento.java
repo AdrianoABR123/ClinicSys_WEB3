@@ -1,5 +1,7 @@
 package com.ClinicSys.api.models.entity;
 
+import java.io.Serializable;
+
 public record Medicamento(
         Long id,
         Integer codigo,
@@ -8,5 +10,5 @@ public record Medicamento(
         String tipo_dosagem,
         String descricao,
         String observacao
-) {
+) implements Serializable {
 }

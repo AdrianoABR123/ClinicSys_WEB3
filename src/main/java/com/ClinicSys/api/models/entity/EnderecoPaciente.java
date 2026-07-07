@@ -1,5 +1,7 @@
 package com.ClinicSys.api.models.entity;
 
+import java.io.Serializable;
+
 public record EnderecoPaciente(
         Long id,
         String cep,
@@ -7,5 +9,5 @@ public record EnderecoPaciente(
         String bairro,
         String municipio,
         String uf
-) {
+) implements Serializable {
 }
